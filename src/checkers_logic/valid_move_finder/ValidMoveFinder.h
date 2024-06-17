@@ -12,7 +12,6 @@
 namespace checkers {
 
 class ValidMoveFinder {
-
   struct ParentState {
     int index;
     bool was_beating;
@@ -25,8 +24,12 @@ class ValidMoveFinder {
   static std::vector<Move> find_moves(const ValidMoveFinder::ParentState& state);
   static void promote_if_possible(ParentState& state);
   static std::vector<Move> leave_only_longest_move_sequences(std::vector<Move> moves);
+  static std::vector<Move> leave_empty_moves(std::vector<Move> moves);
 
   static std::vector<Move> moves_for_normal_white(const ParentState& state);
+  static std::vector<Move> moves_for_normal_red(const ParentState& state);
+
+  static std::vector<Move> moves_for_queen(const ParentState& state);
 
  public:
   struct Pieces {
