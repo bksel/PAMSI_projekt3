@@ -76,6 +76,7 @@ std::vector<Move> ValidMoveFinder::valid_moves_for_red(const Board& board) {
     std::vector<Move> piece_moves = find_moves(state);
     moves.insert(moves.end(), piece_moves.begin(), piece_moves.end());
   }
+  moves = leave_only_longest_move_sequences(moves);
 
   return moves;
 }
@@ -160,7 +161,52 @@ std::vector<Move> ValidMoveFinder::moves_for_normal_white(
   return moves;
 }
 std::vector<Move> ValidMoveFinder::moves_for_normal_red(const ValidMoveFinder::ParentState& state) {
-  return std::vector<Move>{};  // TODO
+  const Board& b = state.original_board;
+  const std::vector<Field>& fields = b.get_fields();
+  const Field& f = fields[state.index];
+  std::vector<Move> moves;
+
+  if (not state.was_beating) {
+    if (fields[f.lower_left].empty and f.lower_left != -1) {
+      Move m = state.move;
+      m.steps.emplace_back(f.lower_left);
+      moves.emplace_back(m);
+    }
+    if (fields[f.lower_right].empty and f.lower_right != -1) {
+      Move m = state.move;
+      m.steps.emplace_back(f.lower_right);
+      moves.emplace_back(m);
+    }
+  } else {
+    moves.emplace_back(state.move);
+  }
+
+  const Field& ul = fields[f.lower_left];
+  const Field& ur = fields[f.lower_right];
+
+  if (f.lower_left != -1 and not ul.empty and ul.piece.color == Piece::WHITE and
+      ul.lower_left != -1 and fields[ul.lower_left].empty) {
+    ParentState new_state = state;
+    new_state.index = f.lower_left;
+    new_state.was_beating = true;
+    new_state.move.steps.emplace_back(ul.lower_left);
+    new_state.move.removed_pieces.emplace_back(f.lower_left);
+    std::vector<Move> m = find_moves(new_state);
+    moves.insert(moves.end(), m.begin(), m.end());
+  }
+
+  if (f.lower_right != -1 and not ur.empty and ur.piece.color == Piece::WHITE and
+      ur.lower_right != -1 and fields[ur.lower_right].empty) {
+    ParentState new_state = state;
+    new_state.index = ur.lower_right;
+    new_state.was_beating = true;
+    new_state.move.steps.emplace_back(ur.lower_right);
+    new_state.move.removed_pieces.emplace_back(f.lower_right);
+    std::vector<Move> m = find_moves(new_state);
+    moves.insert(moves.end(), m.begin(), m.end());
+  }
+
+  return moves;
 }
 std::vector<Move> ValidMoveFinder::moves_for_queen(const ValidMoveFinder::ParentState& state) {
   return std::vector<Move>{};  // TODO
