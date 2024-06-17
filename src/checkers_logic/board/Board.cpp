@@ -74,9 +74,16 @@ void Board::execute_move(const Move& m) {
   fields[from].piece = {Piece::NONE, Piece::EMPTY};
 
   for (int to_be_removed : m.removed_pieces) {
+    if (fields[to_be_removed].empty) {
+      std::string message = fmt::format("Removing piece from empty field! Move: {}, Field: {}",
+                                        m.to_string(), to_be_removed);
+      throw std::runtime_error(message);
+    }
     fields[to_be_removed].empty = true;
     fields[to_be_removed].piece = {Piece::NONE, Piece::EMPTY};
   }
+
+  promote_if_possible();
 }
 Board::Statistics Board::get_statistics() const {
   int white_pieces = 0;
@@ -96,5 +103,20 @@ Board::Statistics Board::get_statistics() const {
   }
 
   return {white_pieces, black_pieces, white_kings, black_kings};
+}
+void Board::promote_if_possible() {
+  for (int id : {1, 2, 3, 4}) {
+    if (fields[id].piece.color == Piece::WHITE) {
+      fields[id].piece.type = Piece::QUEEN;
+      fmt::println(stderr, "LOG: Promoting white piece at field {}", id);
+    }
+  }
+
+  for (int id : {29, 30, 31, 32}) {
+    if (fields[id].piece.color == Piece::RED) {
+      fields[id].piece.type = Piece::QUEEN;
+      fmt::println(stderr, "LOG: Promoting red piece at field {}", id);
+    }
+  }
 }
 }  // namespace checkers

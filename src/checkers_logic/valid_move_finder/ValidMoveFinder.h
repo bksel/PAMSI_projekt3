@@ -5,11 +5,30 @@
 #ifndef MINIPROJEKT3_WARCABY_SRC_CHECKERS_LOGIC_VALID_MOVE_FINDER_VALIDMOVEFINDER_H_
 #define MINIPROJEKT3_WARCABY_SRC_CHECKERS_LOGIC_VALID_MOVE_FINDER_VALIDMOVEFINDER_H_
 
+#include <vector>
+
+#include "../board/Board.h"
+
 namespace checkers {
 
 class ValidMoveFinder {
 
+  std::vector<Move> valid_moves_for_normal_white(const Board& board, int field_id);
+  std::vector<Move> valid_moves_for_queen_white(const Board& board, int field_id);
 
+ public:
+  struct Pieces {
+    std::vector<int> white_pieces;
+    std::vector<int> red_pieces;
+    std::vector<int> white_queens;
+    std::vector<int> red_queens;
+  };
+
+
+
+  static Pieces find_pieces(const Board& board);
+
+  static std::vector<Move> valid_moves_for_white(const Board& board);
 
 };
 

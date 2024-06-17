@@ -8,6 +8,7 @@
 #include "board/Board.h"
 #include "field/Field.h"
 #include "board/visualiser/Visualiser.h"
+#include "valid_move_finder/ValidMoveFinder.h"
 
 namespace checkers {
   void print(const Board& b) {

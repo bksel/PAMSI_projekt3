@@ -17,6 +17,7 @@ class Board {
 
   void init_fields();
   void set_connections();
+  void promote_if_possible();
 
  public:
   Board();
