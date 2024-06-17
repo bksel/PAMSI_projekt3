@@ -29,7 +29,7 @@ void checkers::Visualiser::print_rows(const checkers::Board& board) {
       const checkers::Field& field = board.get_fields().at(count);
 
       char symbol = field_to_symbol(field);
-      if (i % 2 == 0) {
+      if (i % 2 != 0) {
         fmt::print("{} {} ", white_field, symbol);
       } else {
         fmt::print("{} {} ", symbol, white_field);

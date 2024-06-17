@@ -13,8 +13,21 @@ namespace checkers {
 
 class ValidMoveFinder {
 
-  std::vector<Move> valid_moves_for_normal_white(const Board& board, int field_id);
-  std::vector<Move> valid_moves_for_queen_white(const Board& board, int field_id);
+  struct ParentState {
+    bool was_beating;
+    int index;
+    Piece::Color color;
+    Piece::Type type;
+    Board board;
+    Move move;
+  };
+
+
+  static std::vector<Move> valid_moves_for_normal_white(const Board& board, int field_id);
+  static std::vector<Move> valid_moves_for_queen_white(const Board& board, int field_id);
+
+  static std::vector<Move> valid_moves_for_normal_red(const Board& board, int field_id);
+  static std::vector<Move> valid_moves_for_queen_red(const Board& board, int field_id);
 
  public:
   struct Pieces {
@@ -24,12 +37,10 @@ class ValidMoveFinder {
     std::vector<int> red_queens;
   };
 
-
-
   static Pieces find_pieces(const Board& board);
 
   static std::vector<Move> valid_moves_for_white(const Board& board);
-
+  static std::vector<Move> valid_moves_for_red(const Board& board);
 };
 
 }  // namespace checkers

@@ -14,8 +14,10 @@ int main() {
 
   b.execute_move(m);
   chkrs::print(b);
-  b.execute_move({{13,29}, {}});
+  b.execute_move({{13,18}, {}});
   chkrs::print(b);
+  std::vector<chkrs::Move> moves = chkrs::ValidMoveFinder::valid_moves_for_white(b);
+
   auto pieces = chkrs::ValidMoveFinder::find_pieces(b);
 
   fmt::print("White pieces: ");
