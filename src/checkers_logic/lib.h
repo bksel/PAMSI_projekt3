@@ -14,6 +14,22 @@ namespace checkers {
   void print(const Board& b) {
     Visualiser::print(b);
   }
+
+  template<typename T>
+  concept Iterable = requires(T t) {
+    { t.begin() } -> std::same_as<typename T::iterator>;
+    { t.end() } -> std::same_as<typename T::iterator>;
+  };
+  template<Iterable Container>
+  void print(const Container& moves) {
+        for (const auto& m : moves) {
+          fmt::println("{}", m.to_string());
+        }
+  }
+
+  void print(const Move& m) {
+    fmt::println("{}", m.to_string());
+  }
 }  // namespace checkers
 
 
