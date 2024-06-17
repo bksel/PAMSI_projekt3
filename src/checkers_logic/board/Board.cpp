@@ -57,6 +57,12 @@ void Board::set_connections() {
 }
 Board::Board(const Board& b) { fields = b.fields; }
 void Board::execute_move(const Move& m) {
+  if (m.steps.empty()) {
+    std::string message = fmt::format("Empty move! {}", m.to_string());
+    //    throw std::runtime_error(message);
+    fmt::print(stderr, "{}\n", message);
+    return;
+  }
   int from = *m.steps.begin();
   int to = *m.steps.rbegin();
 

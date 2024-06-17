@@ -14,7 +14,8 @@ int main() {
 
   b.execute_move(m);
   chkrs::print(b);
-  b.execute_move({{13,18}, {}});
+  b.execute_move({{22,17}, {}});
+  b.execute_move({{23,18}, {}});
   chkrs::print(b);
   std::vector<chkrs::Move> moves = chkrs::ValidMoveFinder::valid_moves_for_white(b);
 
