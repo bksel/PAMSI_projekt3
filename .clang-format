@@ -1,0 +1,7 @@
+---
+BasedOnStyle: Google
+#BasedOnStyle: Mozilla
+ColumnLimit: 100
+PackConstructorInitializers: CurrentLine
+BreakConstructorInitializers: BeforeComma
+...
