@@ -6,10 +6,12 @@
 #define MINIPROJEKT3_WARCABY_SRC_CHECKERS_LOGIC_HEURISTICS_HEURISTIC_FUNCTION_H_
 
 #include "../board/Board.h"
+#include "heuristic_analyser/HeuristicAnalyser.h"
 
 namespace checkers {
 
 float heuristic_function(const Board& board);
+
 
 }  // namespace checkers
 

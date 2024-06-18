@@ -27,6 +27,9 @@ add_library(checkers_logic STATIC
         src/game_manager/player/IPlayer.h
         src/game_manager/player/human_player/HumanPlayer.cpp
         src/game_manager/player/human_player/HumanPlayer.h
+        src/checkers_logic/heuristics/heuristic_analyser/HeuristicAnalyser.cpp
+        src/checkers_logic/heuristics/heuristic_analyser/HeuristicAnalyser.h
+        src/checkers_logic/heuristics/heuristic_function.cpp
 
 
 )
