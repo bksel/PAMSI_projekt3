@@ -5,8 +5,8 @@
 #ifndef MINIPROJEKT3_WARCABY_SRC_CHECKERS_LOGIC_MOVE_MOVE_H_
 #define MINIPROJEKT3_WARCABY_SRC_CHECKERS_LOGIC_MOVE_MOVE_H_
 
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace checkers {
 
@@ -17,7 +17,7 @@ struct Move {
 
   bool is_id_in_removed_pieces(int id) const;
 
-
+  bool operator==(const Move& other) const;
 };
 
 }  // namespace checkers

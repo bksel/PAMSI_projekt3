@@ -370,5 +370,14 @@ std::vector<Move> ValidMoveFinder::remove_duplicates(std::vector<Move> moves) {
       moves.end());
   return moves;
 }
+bool ValidMoveFinder::is_move_in_moves(Move& move, const std::vector<Move>& moves) {
+  for (const Move& m : moves)
+    if (m == move) {
+      move = m;
+      return true;
+    }
+
+  return false;
+}
 
 }  // namespace checkers

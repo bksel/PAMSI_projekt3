@@ -23,13 +23,25 @@ std::string Move::to_string() const {
   return result;
 }
 bool Move::is_id_in_removed_pieces(int id) const {
-
   for (int removed_piece : removed_pieces) {
     if (removed_piece == id) {
       return true;
     }
   }
   return false;
+}
+bool Move::operator==(const Move& other) const {
+  if (steps.size() != other.steps.size()) {
+    return false;
+  }
+
+  for (int i = 0; i < steps.size(); i++) {
+    if (steps[i] != other.steps[i]) {
+      return false;
+    }
+  }
+
+  return true;
 
 }
 }  // namespace checkers
