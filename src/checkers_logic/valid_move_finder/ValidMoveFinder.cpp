@@ -37,9 +37,6 @@ std::vector<Move> ValidMoveFinder::find_moves(const ValidMoveFinder::ParentState
   //  const Field& f = b.get_fields()[state.index];
   //  new_state.type = f.piece.type;
   promote_if_possible(new_state);
-  if (new_state.index == 29) {
-    fmt::print("AAAA DEBUG\n");
-  }
 
   std::vector<Move> moves, m;
   if (state.color == Piece::WHITE) {
@@ -115,7 +112,7 @@ std::vector<Move> ValidMoveFinder::leave_only_longest_move_sequences(std::vector
     }
   }
 
-  fmt::print("Max length: {}\n", max_length);
+  //  fmt::print("Max length: {}\n", max_length);
 
   // remove all moves that are not the longest
   moves.erase(
@@ -177,8 +174,12 @@ std::vector<Move> ValidMoveFinder::moves_for_normal_white(
     }
   }
 
-  moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
   if (not jump_moves.empty()) {
+    moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
+    return moves;
+  }
+
+  if (state.was_beating) {
     return moves;
   }
 
@@ -234,8 +235,12 @@ std::vector<Move> ValidMoveFinder::moves_for_normal_red(const ValidMoveFinder::P
     }
   }
 
-  moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
   if (not jump_moves.empty()) {
+    moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
+    return moves;
+  }
+
+  if (state.was_beating) {
     return moves;
   }
 

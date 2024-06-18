@@ -34,6 +34,10 @@ void test_game_manager() {
   game::HumanPlayer white{};
   game::HumanPlayer red{};
 
+  game::GameManager gm{white, red};
+
+  gm.play_game();
+
 
 }
 

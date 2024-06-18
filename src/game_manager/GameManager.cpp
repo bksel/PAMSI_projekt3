@@ -17,13 +17,23 @@ void GameManager::play_game() {
     play_turn();
     is_game_over = check_if_draw() || check_if_win();
   }
+  if (winner == GameWinner::NOT_FINISHED && check_if_draw()) {
+    winner = GameWinner::DRAW;
+  }
+  fmt::print("GAME OVER\n");
+  checkers::Visualiser::print(board);
+  if (winner == GameWinner::DRAW) {
+    fmt::print("DRAW\n");
+  } else {
+    fmt::print("WINNER: {}\n", winner == GameWinner::PLAYER1 ? "PLAYER1" : "PLAYER2");
+  }
 }
 bool GameManager::check_if_draw() {
   checkers::Board::Statistics stats = board.get_statistics();
   int whites = stats.white_pieces + stats.white_kings;
   int reds = stats.black_pieces + stats.black_kings;
 
-  if (whites == 0 || reds == 0) {
+  if (whites == 0 && reds == 0) {
     return true;
   }
   if (whites == 1 && reds == 1) {
@@ -42,9 +52,22 @@ void GameManager::play_turn() {
   IPlayer& p1 = first_player_color == checkers::Piece::Color::WHITE ? player1 : player2;
   IPlayer& p2 = first_player_color == checkers::Piece::Color::WHITE ? player2 : player1;
 
-  move = p1.make_move(board);
+  try {
+    move = p1.make_move(board);
+  } catch (checkers::ValidMoveFinder::NoMovesFound& e) {
+    winner = GameWinner::PLAYER2;
+    fmt::print("PLAYER1 HAS NO MOVES\n");
+    return;
+  }
   board.execute_move(move);
-  move = p2.make_move(board);
+  try {
+    move = p2.make_move(board);
+  } catch (checkers::ValidMoveFinder::NoMovesFound& e) {
+    winner = GameWinner::PLAYER1;
+    fmt::print("PLAYER2 HAS NO MOVES\n");
+    return;
+  }
+
   board.execute_move(move);
 }
 
