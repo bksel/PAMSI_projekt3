@@ -6,7 +6,7 @@
 float checkers::heuristic_function(const Board& board) {
   Board::Statistics stats = board.get_statistics();
 
-  int result = 0;
+  float result = 0;
 
   HeuristicAnalyser::Weights weights;
 
@@ -15,6 +15,12 @@ float checkers::heuristic_function(const Board& board) {
 
   result += weights.pawns_number * pawns;
   result += weights.queens_number * queens;
+
+  int distance_to_opponents_edge = HeuristicAnalyser::piece_opponent_edge(board);
+  result += weights.piece_opponent_edge * distance_to_opponents_edge;
+
+  int distance_to_board_center = HeuristicAnalyser::piece_board_center(board);
+  result += weights.piece_board_center * distance_to_board_center;
 
   return result;
 }

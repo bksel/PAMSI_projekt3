@@ -12,6 +12,7 @@
 #include "board/visualiser/Visualiser.h"
 #include "field/Field.h"
 #include "valid_move_finder/ValidMoveFinder.h"
+#include "heuristics/heuristic_function.h"
 
 namespace checkers {
 template <typename T>
