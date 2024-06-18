@@ -1,0 +1,14 @@
+//
+// Created by ksel on 18/06/24.
+//
+
+#ifndef MINIPROJEKT3_WARCABY_SRC_GAME_MANAGER_PLAYER_IPLAYER_H_
+#define MINIPROJEKT3_WARCABY_SRC_GAME_MANAGER_PLAYER_IPLAYER_H_
+
+namespace game {
+
+class IPlayer {};
+
+}  // namespace game
+
+#endif  // MINIPROJEKT3_WARCABY_SRC_GAME_MANAGER_PLAYER_IPLAYER_H_
