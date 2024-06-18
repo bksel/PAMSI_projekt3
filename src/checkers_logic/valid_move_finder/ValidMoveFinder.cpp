@@ -73,8 +73,14 @@ std::vector<Move> ValidMoveFinder::valid_moves_for_white(const Board& board) {
     std::vector<Move> piece_moves = find_moves(state);
     moves.insert(moves.end(), piece_moves.begin(), piece_moves.end());
   }
+
+  if (moves.empty()) {
+    throw NoMovesFound();
+  }
+
   moves = leave_only_longest_move_sequences(moves);
   moves = remove_duplicates(moves);
+
   return moves;
 }
 std::vector<Move> ValidMoveFinder::valid_moves_for_red(const Board& board) {
@@ -90,6 +96,11 @@ std::vector<Move> ValidMoveFinder::valid_moves_for_red(const Board& board) {
     std::vector<Move> piece_moves = find_moves(state);
     moves.insert(moves.end(), piece_moves.begin(), piece_moves.end());
   }
+
+  if (moves.empty()) {
+    throw NoMovesFound();
+  }
+
   moves = leave_only_longest_move_sequences(moves);
   moves = remove_duplicates(moves);
 

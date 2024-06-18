@@ -6,6 +6,7 @@
 #define MINIPROJEKT3_WARCABY_SRC_CHECKERS_LOGIC_VALID_MOVE_FINDER_VALIDMOVEFINDER_H_
 
 #include <vector>
+#include <exception>
 
 #include "../board/Board.h"
 
@@ -44,6 +45,10 @@ class ValidMoveFinder {
 
   static std::vector<Move> valid_moves_for_white(const Board& board);
   static std::vector<Move> valid_moves_for_red(const Board& board);
+
+  class NoMovesFound : public std::exception {
+    [[nodiscard]] const char* what() const noexcept override { return "No moves found"; }
+  };
 };
 
 }  // namespace checkers
