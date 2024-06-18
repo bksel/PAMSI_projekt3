@@ -5,14 +5,15 @@
 #ifndef MINIPROJEKT3_WARCABY_SRC_CHECKERS_LOGIC_LIB_H_
 #define MINIPROJEKT3_WARCABY_SRC_CHECKERS_LOGIC_LIB_H_
 
+#include <fmt/core.h>
+#include <functional>
+
 #include "board/Board.h"
 #include "board/visualiser/Visualiser.h"
 #include "field/Field.h"
 #include "valid_move_finder/ValidMoveFinder.h"
 
 namespace checkers {
-void print(const Board& b) { Visualiser::print(b); }
-
 template <typename T>
 concept Iterable = requires(T t) {
   { t.begin() } -> std::same_as<typename T::iterator>;
@@ -29,7 +30,13 @@ void print(const Container& moves) {
   }
 }
 
-void print(const Move& m) { fmt::println("{}", m.to_string()); }
+//void print_board(const Board& b) { Visualiser::print(b); }
+
+//std::function<void(const Board&)> print_board = Visualiser::print;?
+
+
+
+// void print(const Move& m) { fmt::println("{}", m.to_string()); }
 }  // namespace checkers
 
 #endif  // MINIPROJEKT3_WARCABY_SRC_CHECKERS_LOGIC_LIB_H_

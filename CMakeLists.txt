@@ -24,8 +24,9 @@ add_library(checkers_logic STATIC
         src/checkers_logic/board/visualiser/Visualiser.h
         src/checkers_logic/valid_move_finder/ValidMoveFinder.cpp
         src/checkers_logic/valid_move_finder/ValidMoveFinder.h
-        src/game_manager/player/IPlayer.cpp
         src/game_manager/player/IPlayer.h
+        src/game_manager/player/human_player/HumanPlayer.cpp
+        src/game_manager/player/human_player/HumanPlayer.h
 
 
 )
@@ -33,6 +34,7 @@ add_library(checkers_logic STATIC
 add_executable(miniprojekt3_warcaby src/main.cpp
         src/game_manager/GameManager.cpp
         src/game_manager/GameManager.h
+        src/game_manager/lib.h
 
 )
 
