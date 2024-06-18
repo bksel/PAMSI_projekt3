@@ -126,46 +126,55 @@ std::vector<Move> ValidMoveFinder::moves_for_normal_white(
   const Field& f = fields[state.index];
   std::vector<Move> moves;
 
-  if (not state.was_beating) {
-    if (fields[f.upper_left].empty and f.upper_left != -1) {
-      Move m = state.move;
-      m.steps.emplace_back(f.upper_left);
-      moves.emplace_back(m);
-    }
-    if (fields[f.upper_right].empty and f.upper_right != -1) {
-      Move m = state.move;
-      m.steps.emplace_back(f.upper_right);
-      moves.emplace_back(m);
-    }
-  } else {
+  if (state.move.steps.size() > 1) {
     moves.emplace_back(state.move);
   }
+  std::vector<Move> jump_moves;
+  Piece::Color enemy_color = Piece::RED;
 
-  const Field& ul = fields[f.upper_left];
-  const Field& ur = fields[f.upper_right];
-
-  if (f.upper_left != -1 and not ul.empty and ul.piece.color == Piece::RED and
-      ul.upper_left != -1 and fields[ul.upper_left].empty) {
-    ParentState new_state = state;
-    new_state.index = f.upper_left;
-    new_state.was_beating = true;
-    new_state.move.steps.emplace_back(ul.upper_left);
-    new_state.move.removed_pieces.emplace_back(f.upper_left);
-    std::vector<Move> m = find_moves(new_state);
-    moves.insert(moves.end(), m.begin(), m.end());
+  if (f.upper_left != -1) {
+    const Field& ul = fields[f.upper_left];
+    if (not ul.empty && ul.piece.color == enemy_color && ul.upper_left != -1 &&
+        fields[ul.upper_left].empty) {
+      ParentState new_state = state;
+      new_state.index = ul.upper_left;
+      new_state.was_beating = true;
+      new_state.move.steps.emplace_back(ul.upper_left);
+      new_state.move.removed_pieces.emplace_back(f.upper_left);
+      std::vector<Move> m = find_moves(new_state);
+      jump_moves.insert(jump_moves.end(), m.begin(), m.end());
+    }
+  }
+  if (f.upper_right != -1) {
+    const Field& ur = fields[f.upper_right];
+    if (not ur.empty && ur.piece.color == enemy_color && ur.upper_right != -1 &&
+        fields[ur.upper_right].empty) {
+      ParentState new_state = state;
+      new_state.index = ur.upper_right;
+      new_state.was_beating = true;
+      new_state.move.steps.emplace_back(ur.upper_right);
+      new_state.move.removed_pieces.emplace_back(f.upper_right);
+      std::vector<Move> m = find_moves(new_state);
+      jump_moves.insert(jump_moves.end(), m.begin(), m.end());
+    }
   }
 
-  if (f.upper_right != -1 and not ur.empty and ur.piece.color == Piece::RED and
-      ur.upper_right != -1 and fields[ur.upper_right].empty) {
-    ParentState new_state = state;
-    new_state.index = ur.upper_right;
-    new_state.was_beating = true;
-    new_state.move.steps.emplace_back(ur.upper_right);
-    new_state.move.removed_pieces.emplace_back(f.upper_right);
-    std::vector<Move> m = find_moves(new_state);
-    moves.insert(moves.end(), m.begin(), m.end());
+  if (not jump_moves.empty()) {
+    moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
+    return moves;
   }
 
+  // simple moves
+  for (int id : {f.upper_left, f.upper_right}) {
+    if (id == -1) continue;
+    const Field& neighbour = fields[id];
+    if (not neighbour.empty) {
+      continue;
+    }
+    Move move = state.move;
+    move.steps.emplace_back(id);
+    moves.emplace_back(move);
+  }
   return moves;
 }
 std::vector<Move> ValidMoveFinder::moves_for_normal_red(const ValidMoveFinder::ParentState& state) {
@@ -174,46 +183,55 @@ std::vector<Move> ValidMoveFinder::moves_for_normal_red(const ValidMoveFinder::P
   const Field& f = fields[state.index];
   std::vector<Move> moves;
 
-  if (not state.was_beating) {
-    if (fields[f.lower_left].empty and f.lower_left != -1) {
-      Move m = state.move;
-      m.steps.emplace_back(f.lower_left);
-      moves.emplace_back(m);
-    }
-    if (fields[f.lower_right].empty and f.lower_right != -1) {
-      Move m = state.move;
-      m.steps.emplace_back(f.lower_right);
-      moves.emplace_back(m);
-    }
-  } else {
+  if (state.move.steps.size() > 1) {
     moves.emplace_back(state.move);
   }
+  std::vector<Move> jump_moves;
+  Piece::Color enemy_color = Piece::WHITE;
 
-  const Field& ul = fields[f.lower_left];
-  const Field& ur = fields[f.lower_right];
-
-  if (f.lower_left != -1 and not ul.empty and ul.piece.color == Piece::WHITE and
-      ul.lower_left != -1 and fields[ul.lower_left].empty) {
-    ParentState new_state = state;
-    new_state.index = f.lower_left;
-    new_state.was_beating = true;
-    new_state.move.steps.emplace_back(ul.lower_left);
-    new_state.move.removed_pieces.emplace_back(f.lower_left);
-    std::vector<Move> m = find_moves(new_state);
-    moves.insert(moves.end(), m.begin(), m.end());
+  if (f.lower_left != -1) {
+    const Field& ul = fields[f.lower_left];
+    if (not ul.empty && ul.piece.color == enemy_color && ul.lower_left != -1 &&
+        fields[ul.lower_left].empty) {
+      ParentState new_state = state;
+      new_state.index = ul.lower_left;
+      new_state.was_beating = true;
+      new_state.move.steps.emplace_back(ul.lower_left);
+      new_state.move.removed_pieces.emplace_back(f.lower_left);
+      std::vector<Move> m = find_moves(new_state);
+      jump_moves.insert(jump_moves.end(), m.begin(), m.end());
+    }
+  }
+  if (f.lower_right != -1) {
+    const Field& ur = fields[f.lower_right];
+    if (not ur.empty && ur.piece.color == enemy_color && ur.lower_right != -1 &&
+        fields[ur.lower_right].empty) {
+      ParentState new_state = state;
+      new_state.index = ur.lower_right;
+      new_state.was_beating = true;
+      new_state.move.steps.emplace_back(ur.lower_right);
+      new_state.move.removed_pieces.emplace_back(f.lower_right);
+      std::vector<Move> m = find_moves(new_state);
+      jump_moves.insert(jump_moves.end(), m.begin(), m.end());
+    }
   }
 
-  if (f.lower_right != -1 and not ur.empty and ur.piece.color == Piece::WHITE and
-      ur.lower_right != -1 and fields[ur.lower_right].empty) {
-    ParentState new_state = state;
-    new_state.index = ur.lower_right;
-    new_state.was_beating = true;
-    new_state.move.steps.emplace_back(ur.lower_right);
-    new_state.move.removed_pieces.emplace_back(f.lower_right);
-    std::vector<Move> m = find_moves(new_state);
-    moves.insert(moves.end(), m.begin(), m.end());
+  if (not jump_moves.empty()) {
+    moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
+    return moves;
   }
 
+  // simple moves
+  for (int id : {f.lower_left, f.lower_right}) {
+    if (id == -1) continue;
+    const Field& neighbour = fields[id];
+    if (not neighbour.empty) {
+      continue;
+    }
+    Move move = state.move;
+    move.steps.emplace_back(id);
+    moves.emplace_back(move);
+  }
   return moves;
 }
 std::vector<Move> ValidMoveFinder::moves_for_queen(const ValidMoveFinder::ParentState& state) {

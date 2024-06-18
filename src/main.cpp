@@ -24,7 +24,7 @@ int main() {
 
 
 
-  chs::print(moves_white);
+  chs::print(moves_red);
 
 
   fmt::print("White pieces: ");
