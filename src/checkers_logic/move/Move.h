@@ -15,6 +15,8 @@ struct Move {
   std::vector<int> removed_pieces;
   [[nodiscard]] std::string to_string() const;
 
+  bool is_id_in_removed_pieces(int id) const;
+
 
 };
 

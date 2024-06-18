@@ -22,4 +22,14 @@ std::string Move::to_string() const {
   }
   return result;
 }
+bool Move::is_id_in_removed_pieces(int id) const {
+
+  for (int removed_piece : removed_pieces) {
+    if (removed_piece == id) {
+      return true;
+    }
+  }
+  return false;
+
+}
 }  // namespace checkers

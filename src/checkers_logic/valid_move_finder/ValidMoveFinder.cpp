@@ -68,7 +68,13 @@ std::vector<Move> ValidMoveFinder::valid_moves_for_white(const Board& board) {
     std::vector<Move> piece_moves = find_moves(state);
     moves.insert(moves.end(), piece_moves.begin(), piece_moves.end());
   }
+  for (int id : pieces.white_queens) {
+    ParentState state{id, false, Piece::WHITE, Piece::QUEEN, board, Move{{id}, {}}};
+    std::vector<Move> piece_moves = find_moves(state);
+    moves.insert(moves.end(), piece_moves.begin(), piece_moves.end());
+  }
   moves = leave_only_longest_move_sequences(moves);
+  moves = remove_duplicates(moves);
   return moves;
 }
 std::vector<Move> ValidMoveFinder::valid_moves_for_red(const Board& board) {
@@ -85,6 +91,7 @@ std::vector<Move> ValidMoveFinder::valid_moves_for_red(const Board& board) {
     moves.insert(moves.end(), piece_moves.begin(), piece_moves.end());
   }
   moves = leave_only_longest_move_sequences(moves);
+  moves = remove_duplicates(moves);
 
   return moves;
 }
@@ -159,8 +166,8 @@ std::vector<Move> ValidMoveFinder::moves_for_normal_white(
     }
   }
 
+  moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
   if (not jump_moves.empty()) {
-    moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
     return moves;
   }
 
@@ -216,8 +223,8 @@ std::vector<Move> ValidMoveFinder::moves_for_normal_red(const ValidMoveFinder::P
     }
   }
 
+  moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
   if (not jump_moves.empty()) {
-    moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
     return moves;
   }
 
@@ -244,10 +251,88 @@ std::vector<Move> ValidMoveFinder::moves_for_queen(const ValidMoveFinder::Parent
     moves.emplace_back(state.move);
   }
   std::vector<Move> jump_moves;
+  Piece::Color enemy_color = state.color == Piece::WHITE ? Piece::RED : Piece::WHITE;
 
-  if (jump_moves.empty()) {
-    moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
-    return moves;
+  if (f.upper_right != -1 and state.move.is_id_in_removed_pieces(f.upper_right) == false) {
+    //    fmt::print("UR: {}\n", f.upper_right);
+    const Field& ur = fields[f.upper_right];
+    if (not ur.empty && ur.piece.color == enemy_color && ur.upper_right != -1 &&
+        fields[ur.upper_right].empty) {
+      ParentState new_state = state;
+      new_state.index = ur.upper_right;
+      new_state.was_beating = true;
+      new_state.move.steps.emplace_back(ur.upper_right);
+      new_state.move.removed_pieces.emplace_back(f.upper_right);
+      std::vector<Move> m = find_moves(new_state);
+      if (m.size() == 1 and m[0].steps.size() == state.move.steps.size()) {
+      }
+      jump_moves.insert(jump_moves.end(), m.begin(), m.end());
+    }
+  }
+
+  if (f.lower_right != -1 and state.move.is_id_in_removed_pieces(f.lower_right) == false) {
+    //    fmt::print("LR: {}\n", f.lower_right);
+    const Field& lr = fields[f.lower_right];
+    if (not lr.empty && lr.piece.color == enemy_color && lr.lower_right != -1 &&
+        fields[lr.lower_right].empty) {
+      ParentState new_state = state;
+      new_state.index = lr.lower_right;
+      new_state.was_beating = true;
+      new_state.move.steps.emplace_back(lr.lower_right);
+      new_state.move.removed_pieces.emplace_back(f.lower_right);
+      std::vector<Move> m = find_moves(new_state);
+      jump_moves.insert(jump_moves.end(), m.begin(), m.end());
+    }
+  }
+
+  if (f.lower_left != -1 and state.move.is_id_in_removed_pieces(f.lower_left) == false) {
+    //    fmt::print("LR: {}\n", f.lower_left);
+    const Field& lr = fields[f.lower_left];
+    if (not lr.empty && lr.piece.color == enemy_color && lr.lower_left != -1 &&
+        fields[lr.lower_left].empty) {
+      ParentState new_state = state;
+      new_state.index = lr.lower_left;
+      new_state.was_beating = true;
+      new_state.move.steps.emplace_back(lr.lower_left);
+      new_state.move.removed_pieces.emplace_back(f.lower_left);
+      std::vector<Move> m = find_moves(new_state);
+      jump_moves.insert(jump_moves.end(), m.begin(), m.end());
+    }
+  }
+
+  if (f.upper_left != -1 and state.move.is_id_in_removed_pieces(f.upper_left) == false) {
+    //    fmt::print("UL: {}\n", f.upper_left);
+    const Field& ul = fields[f.upper_left];
+    if (not ul.empty && ul.piece.color == enemy_color && ul.upper_left != -1 &&
+        fields[ul.upper_left].empty) {
+      ParentState new_state = state;
+      new_state.index = ul.upper_left;
+      new_state.was_beating = true;
+      new_state.move.steps.emplace_back(ul.upper_left);
+      new_state.move.removed_pieces.emplace_back(f.upper_left);
+      std::vector<Move> m = find_moves(new_state);
+      jump_moves.insert(jump_moves.end(), m.begin(), m.end());
+    }
+  }
+
+  if (f.lower_left != -1 and state.move.is_id_in_removed_pieces(f.lower_left) == false) {
+    //    fmt::print("LL: {}\n", f.lower_left);
+    const Field& ll = fields[f.lower_left];
+    if (not ll.empty && ll.piece.color == enemy_color && ll.lower_left != -1 &&
+        fields[ll.lower_left].empty) {
+      ParentState new_state = state;
+      new_state.index = ll.lower_left;
+      new_state.was_beating = true;
+      new_state.move.steps.emplace_back(ll.lower_left);
+      new_state.move.removed_pieces.emplace_back(f.lower_left);
+      std::vector<Move> m = find_moves(new_state);
+      jump_moves.insert(jump_moves.end(), m.begin(), m.end());
+    }
+  }
+
+  moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
+  if (not jump_moves.empty()) {
+    return jump_moves;
   }
 
   // simple moves
@@ -264,8 +349,15 @@ std::vector<Move> ValidMoveFinder::moves_for_queen(const ValidMoveFinder::Parent
 
   return moves;
 }
-std::vector<Move> ValidMoveFinder::leave_empty_moves(std::vector<Move> moves) {
-  // erase entries where there is one step or less
+std::vector<Move> ValidMoveFinder::remove_duplicates(std::vector<Move> moves) {
+  // assume that only the longest moves are left
+  Move first = moves[0];
+  // remove all moves that end in the same field
+  moves.erase(
+      std::remove_if(moves.begin() + 1, moves.end(),
+                     [first](const Move& m) { return m.steps.back() == first.steps.back(); }),
+      moves.end());
+  return moves;
 }
 
 }  // namespace checkers
