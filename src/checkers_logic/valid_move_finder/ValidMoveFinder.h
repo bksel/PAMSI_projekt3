@@ -29,7 +29,7 @@ class ValidMoveFinder {
   static std::vector<Move> moves_for_normal_white(const ParentState& state);
   static std::vector<Move> moves_for_normal_red(const ParentState& state);
 
-  static std::vector<Move> moves_for_queen(const ParentState& state);
+  static std::vector<Move> moves_for_queen(const ValidMoveFinder::ParentState& state);
 
  public:
   struct Pieces {

@@ -20,9 +20,12 @@ namespace checkers {
     { t.begin() } -> std::same_as<typename T::iterator>;
     { t.end() } -> std::same_as<typename T::iterator>;
   };
+
+
+
   template<Iterable Container>
   void print(const Container& moves) {
-        for (const auto& m : moves) {
+        for (const Move& m : moves) {
           fmt::println("{}", m.to_string());
         }
   }

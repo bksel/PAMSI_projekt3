@@ -37,6 +37,9 @@ std::vector<Move> ValidMoveFinder::find_moves(const ValidMoveFinder::ParentState
   //  const Field& f = b.get_fields()[state.index];
   //  new_state.type = f.piece.type;
   promote_if_possible(new_state);
+  if (new_state.index == 29) {
+    fmt::print("AAAA DEBUG\n");
+  }
 
   std::vector<Move> moves, m;
   if (state.color == Piece::WHITE) {
@@ -73,6 +76,11 @@ std::vector<Move> ValidMoveFinder::valid_moves_for_red(const Board& board) {
   std::vector<Move> moves;
   for (int id : pieces.red_pieces) {
     ParentState state{id, false, Piece::RED, Piece::NORMAL, board, Move{{id}, {}}};
+    std::vector<Move> piece_moves = find_moves(state);
+    moves.insert(moves.end(), piece_moves.begin(), piece_moves.end());
+  }
+  for (int id : pieces.red_queens) {
+    ParentState state{id, false, Piece::RED, Piece::QUEEN, board, Move{{id}, {}}};
     std::vector<Move> piece_moves = find_moves(state);
     moves.insert(moves.end(), piece_moves.begin(), piece_moves.end());
   }
@@ -209,7 +217,34 @@ std::vector<Move> ValidMoveFinder::moves_for_normal_red(const ValidMoveFinder::P
   return moves;
 }
 std::vector<Move> ValidMoveFinder::moves_for_queen(const ValidMoveFinder::ParentState& state) {
-  return std::vector<Move>{};  // TODO
+  const Board& b = state.original_board;
+  const std::vector<Field>& fields = b.get_fields();
+  const Field& f = fields[state.index];
+  std::vector<Move> moves;
+
+  if (state.move.steps.size() > 1) {
+    moves.emplace_back(state.move);
+  }
+  std::vector<Move> jump_moves;
+
+  if (jump_moves.empty()) {
+    moves.insert(moves.end(), jump_moves.begin(), jump_moves.end());
+    return moves;
+  }
+
+  // simple moves
+  for (int id : {f.upper_left, f.upper_right, f.lower_left, f.lower_right}) {
+    if (id == -1) continue;
+    const Field& neighbour = fields[id];
+    if (not neighbour.empty) {
+      continue;
+    }
+    ParentState new_state = state;
+    new_state.index = id;
+    new_state.move.steps.emplace_back(id);
+  }
+
+  return moves;
 }
 std::vector<Move> ValidMoveFinder::leave_empty_moves(std::vector<Move> moves) {
   // erase entries where there is one step or less
