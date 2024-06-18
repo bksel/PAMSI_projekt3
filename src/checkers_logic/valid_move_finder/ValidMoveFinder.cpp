@@ -352,15 +352,16 @@ std::vector<Move> ValidMoveFinder::moves_for_queen(const ValidMoveFinder::Parent
   }
 
   // simple moves
+  fmt::print("SIMPLE MOVES\n");
   for (int id : {f.upper_left, f.upper_right, f.lower_left, f.lower_right}) {
     if (id == -1) continue;
     const Field& neighbour = fields[id];
     if (not neighbour.empty) {
       continue;
     }
-    ParentState new_state = state;
-    new_state.index = id;
-    new_state.move.steps.emplace_back(id);
+    Move move = state.move;
+    move.steps.emplace_back(id);
+    moves.emplace_back(move);
   }
 
   return moves;

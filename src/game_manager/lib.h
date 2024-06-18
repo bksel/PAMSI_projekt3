@@ -8,5 +8,6 @@
 #include "GameManager.h"
 #include "player/IPlayer.h"
 #include "player/human_player/HumanPlayer.h"
+#include "player/random_player/RandomPlayer.h"
 
 #endif  // MINIPROJEKT3_WARCABY_SRC_GAME_MANAGER_LIB_H_

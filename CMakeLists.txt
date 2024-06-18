@@ -35,6 +35,8 @@ add_executable(miniprojekt3_warcaby src/main.cpp
         src/game_manager/GameManager.cpp
         src/game_manager/GameManager.h
         src/game_manager/lib.h
+        src/game_manager/player/random_player/RandomPlayer.cpp
+        src/game_manager/player/random_player/RandomPlayer.h
 
 )
 
