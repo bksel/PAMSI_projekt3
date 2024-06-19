@@ -132,18 +132,18 @@ int HeuristicAnalyser::mobility(const Board& board) {
     if (f.piece.color == Piece::WHITE) {
       std::vector<Move> moves = ValidMoveFinder::valid_moves_for_white(board);
       int attacks = calculate_attacks(board, f.id);
-      if (attacks == 0) {
-        result += moves.size();
-      } else {
+      if (attacks > 0) {
         result -= moves.size();
+      } else {
+        result += moves.size();
       }
     } else {
       std::vector<Move> moves = ValidMoveFinder::valid_moves_for_red(board);
       int attacks = calculate_attacks(board, f.id);
-      if (attacks == 0) {
-        result -= moves.size();
-      } else {
+      if (attacks >  0) {
         result += moves.size();
+      } else {
+        result -= moves.size();
       }
     }
   }
