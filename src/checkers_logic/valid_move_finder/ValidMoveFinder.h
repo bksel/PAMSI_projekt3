@@ -46,6 +46,10 @@ class ValidMoveFinder {
   static std::vector<Move> valid_moves_for_white(const Board& board);
   static std::vector<Move> valid_moves_for_red(const Board& board);
 
+  static std::vector<Move> valid_moves_for_piece(const Board& board, int index);
+
+  static int count_moves_for_piece(const Board& board, int index);
+
   static bool is_move_in_moves(Move& move, const std::vector<Move>& moves);
 
   class NoMovesFound : public std::exception {

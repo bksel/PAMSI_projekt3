@@ -22,5 +22,8 @@ float checkers::heuristic_function(const Board& board) {
   int distance_to_board_center = HeuristicAnalyser::piece_board_center(board);
   result += weights.piece_board_center * distance_to_board_center;
 
+  int attack = HeuristicAnalyser::under_attack(board);
+  result += weights.piece_under_attack * attack;
+
   return result;
 }

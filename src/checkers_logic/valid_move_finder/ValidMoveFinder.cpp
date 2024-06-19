@@ -386,4 +386,17 @@ bool ValidMoveFinder::is_move_in_moves(Move& move, const std::vector<Move>& move
   return false;
 }
 
+std::vector<Move> ValidMoveFinder::valid_moves_for_piece(const Board& board, int index) {
+  ParentState state{index,
+                    false,
+                    board.get_fields()[index].piece.color,
+                    board.get_fields()[index].piece.type,
+                    board,
+                    Move{{index}, {}}};
+  std::vector<Move> moves = find_moves(state);
+  return moves;
+
+  return {};
+}
+
 }  // namespace checkers
