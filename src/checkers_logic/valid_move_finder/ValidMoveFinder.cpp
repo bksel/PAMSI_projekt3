@@ -351,6 +351,10 @@ std::vector<Move> ValidMoveFinder::moves_for_queen(const ValidMoveFinder::Parent
     return jump_moves;
   }
 
+  if (state.was_beating) {
+    return moves;
+  }
+
   // simple moves
   fmt::print("SIMPLE MOVES\n");
   for (int id : {f.upper_left, f.upper_right, f.lower_left, f.lower_right}) {

@@ -27,8 +27,8 @@ class HeuristicAnalyser {
     float piece_opponent_edge = 2./8;
     float piece_board_center = 2./10;
 
-    float piece_under_attack = 0.4;
-    float mobility = 0.2;
+    float piece_under_attack = -0.2;
+    float mobility = 0.1;
 
 
   } weights;

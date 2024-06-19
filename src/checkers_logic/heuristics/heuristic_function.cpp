@@ -25,5 +25,8 @@ float checkers::heuristic_function(const Board& board) {
   int attack = HeuristicAnalyser::under_attack(board);
   result += weights.piece_under_attack * attack;
 
+  int mobility = HeuristicAnalyser::mobility(board);
+  result += weights.mobility * mobility;
+
   return result;
 }

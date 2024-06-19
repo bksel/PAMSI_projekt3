@@ -14,9 +14,9 @@ void GameManager::play_game() {
   bool is_game_over = false;
   winner = GameWinner::NOT_FINISHED;
   while (!is_game_over) {
+    fmt::print("HEURISTIC: {}\n", checkers::heuristic_function(board));
     play_turn();
     fmt::print("TURN FINISHED\n");
-    fmt::print("HEURISTIC: {}\n", checkers::heuristic_function(board));
 
     is_game_over = check_if_draw() || check_if_win();
   }
