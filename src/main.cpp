@@ -32,11 +32,13 @@ void test_board() {
 }
 
 void test_game_manager() {
-    game::HumanPlayer white{};
+//    game::HumanPlayer white{};
 //    game::HumanPlayer red{};
 
-//  game::RandomPlayer white{true};
-  game::RandomPlayer red{};
+  game::RandomPlayer white{true};
+//  game::RandomPlayer red{};
+
+  game::ComputerPlayer red{};
 
   game::GameManager gm{white, red};
 

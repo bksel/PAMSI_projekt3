@@ -43,6 +43,8 @@ add_executable(miniprojekt3_warcaby src/main.cpp
         src/game_manager/player/random_player/RandomPlayer.h
         src/draughts_algorithm/minmax/MinMax.cpp
         src/draughts_algorithm/minmax/MinMax.h
+        src/game_manager/player/computer_player/ComputerPlayer.cpp
+        src/game_manager/player/computer_player/ComputerPlayer.h
 
 )
 

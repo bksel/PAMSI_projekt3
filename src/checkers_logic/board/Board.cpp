@@ -112,16 +112,16 @@ Board::Statistics Board::get_statistics() const {
 }
 void Board::promote_if_possible() {
   for (int id : {1, 2, 3, 4}) {
-    if (fields[id].piece.color == Piece::WHITE) {
+    if (fields[id].piece.color == Piece::WHITE && fields[id].piece.type == Piece::NORMAL) {
       fields[id].piece.type = Piece::QUEEN;
-      fmt::println(stderr, "LOG: Promoting white piece at field {}", id);
+//      fmt::println(stderr, "LOG: Promoting white piece at field {}", id);
     }
   }
 
   for (int id : {29, 30, 31, 32}) {
-    if (fields[id].piece.color == Piece::RED) {
+    if (fields[id].piece.color == Piece::RED && fields[id].piece.type == Piece::NORMAL) {
       fields[id].piece.type = Piece::QUEEN;
-      fmt::println(stderr, "LOG: Promoting red piece at field {}", id);
+//      fmt::println(stderr, "LOG: Promoting red piece at field {}", id);
     }
   }
 }

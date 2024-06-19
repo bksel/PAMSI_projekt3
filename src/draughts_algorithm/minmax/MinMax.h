@@ -21,9 +21,13 @@ struct Node {
 class MinMax {
 
   std::atomic<int> thread_count = 0;
+  int max_thread_count = 20;
   const int initial_depth = 2;
 
+  static float calculate_minmax (Node& node, int depth, checkers::Piece::Color color);
+
   float alpha_beta(Node& node, int depth, float alpha, float beta, checkers::Piece::Color color);
+  float minmax(Node& node, int depth, checkers::Piece::Color color);
 
  public:
   checkers::Move get_best_move(const checkers::Board& board, int depth, checkers::Piece::Color color);

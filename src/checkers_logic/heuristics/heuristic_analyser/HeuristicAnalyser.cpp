@@ -125,21 +125,29 @@ int HeuristicAnalyser::calculate_attacks(const Board& board, int id) {
   return attacks;
 }
 int HeuristicAnalyser::mobility(const Board& board) {
-
   int result = 0;
 
   for (const Field& f : board.get_fields()) {
     if (f.empty) continue;
     if (f.piece.color == Piece::WHITE) {
       std::vector<Move> moves = ValidMoveFinder::valid_moves_for_white(board);
-      result += moves.size();
+      int attacks = calculate_attacks(board, f.id);
+      if (attacks == 0) {
+        result += moves.size();
+      } else {
+        result -= moves.size();
+      }
     } else {
       std::vector<Move> moves = ValidMoveFinder::valid_moves_for_red(board);
-      result -= moves.size();
+      int attacks = calculate_attacks(board, f.id);
+      if (attacks == 0) {
+        result -= moves.size();
+      } else {
+        result += moves.size();
+      }
     }
   }
 
   return result;
-
 }
 }  // namespace checkers

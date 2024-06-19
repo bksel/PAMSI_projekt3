@@ -24,11 +24,11 @@ class HeuristicAnalyser {
     int pawns_number = 1;
     int queens_number = 2;
 
-    float piece_opponent_edge = 2./8;
-    float piece_board_center = 2./10;
+    float piece_opponent_edge = 0.2;
+    float piece_board_center = 0.07 ;
 
-    float piece_under_attack = -0.2;
-    float mobility = 0.1;
+    float piece_under_attack = 0.6;
+    float mobility = 0.2 ;
 
 
   } weights;
