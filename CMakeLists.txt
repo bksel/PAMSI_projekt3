@@ -30,6 +30,7 @@ add_library(checkers_logic STATIC
         src/checkers_logic/heuristics/heuristic_analyser/HeuristicAnalyser.cpp
         src/checkers_logic/heuristics/heuristic_analyser/HeuristicAnalyser.h
         src/checkers_logic/heuristics/heuristic_function.cpp
+        src/draughts_algorithm/lib.h
 
 
 )
@@ -40,6 +41,8 @@ add_executable(miniprojekt3_warcaby src/main.cpp
         src/game_manager/lib.h
         src/game_manager/player/random_player/RandomPlayer.cpp
         src/game_manager/player/random_player/RandomPlayer.h
+        src/draughts_algorithm/minmax/MinMax.cpp
+        src/draughts_algorithm/minmax/MinMax.h
 
 )
 

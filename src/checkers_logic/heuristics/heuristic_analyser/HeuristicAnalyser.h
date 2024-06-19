@@ -37,7 +37,7 @@ class HeuristicAnalyser {
   static int piece_opponent_edge(const Board& board);
   static int piece_board_center(const Board& board);
   static int under_attack(const Board& board);
-        static int mobility(const Board& board);
+  static int mobility(const Board& board);
 };
 
 }  // namespace checkers
