@@ -31,6 +31,8 @@ class MinMax {
 
  public:
   checkers::Move get_best_move(const checkers::Board& board, int depth, checkers::Piece::Color color);
+  checkers::Move get_best_move_alphabeta(const checkers::Board& board, int depth, checkers::Piece::Color color);
+
 };
 
 

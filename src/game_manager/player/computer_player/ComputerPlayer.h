@@ -17,10 +17,12 @@ class ComputerPlayer : public IPlayer {
 
 
  public:
-  explicit ComputerPlayer(bool print = false) : printing(print) {}
+  explicit ComputerPlayer(bool print = false, bool alpha_beta = false) : printing(print) {}
   checkers::Move make_move(const checkers::Board& board) override;
   void set_color(checkers::Piece::Color _color) override { this->color = _color; }
 };
+
+
 
 }  // namespace game
 
