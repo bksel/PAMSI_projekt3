@@ -13,11 +13,12 @@ namespace game {
 class ComputerPlayer : public IPlayer {
   checkers::Piece::Color color;
   bool printing;
+  bool alpha_beta;
   draught_ai::MinMax minmax;
 
 
  public:
-  explicit ComputerPlayer(bool print = false, bool alpha_beta = false) : printing(print) {}
+  explicit ComputerPlayer(bool print = false, bool alphabeta = false) : printing(print), alpha_beta(alphabeta) {}
   checkers::Move make_move(const checkers::Board& board) override;
   void set_color(checkers::Piece::Color _color) override { this->color = _color; }
 };
