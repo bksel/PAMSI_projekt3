@@ -27,8 +27,8 @@ namespace draught_ai {
   }
 
   for (Node& node : nodes) {
-//        node.value = alpha_beta(node, depth, -1000, 1000, color);
-    node.value = minmax(node, depth, color);
+        node.value = alpha_beta(node, depth+ 2, -1000, 1000, color);
+//    node.value = minmax(node, depth, color);
   }
 
   Node best;

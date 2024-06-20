@@ -7,7 +7,7 @@
 namespace game {
 checkers::Move ComputerPlayer::make_move(const checkers::Board& board) {
 
-  checkers::Move move = minmax.get_best_move(board,4, color);
+  checkers::Move move = minmax.get_best_move(board,3, color);
 
   return move;
 

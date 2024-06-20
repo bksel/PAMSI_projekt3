@@ -21,14 +21,15 @@ class HeuristicAnalyser {
 
  public:
   struct Weights {
-    int pawns_number = 1;
-    int queens_number = 2;
+    float pawns_number = 1.;
+    float queens_number = 1.5;
 
-    float piece_opponent_edge = 0.2;
-    float piece_board_center = 0.07 ;
+    float piece_opponent_edge = 0.05;
+    float piece_board_center = 0.03;
 
-    float piece_under_attack = 0.6;
-    float mobility = 0.11 ;
+    float piece_under_attack = -0.1;
+    float mobility = 0.01 ;
+    float chain_attack = 1.2;
 
 
   } weights;
@@ -38,6 +39,7 @@ class HeuristicAnalyser {
   static int piece_board_center(const Board& board);
   static int under_attack(const Board& board);
   static int mobility(const Board& board);
+  static int chain_attack(const Board& board);
 };
 
 }  // namespace checkers

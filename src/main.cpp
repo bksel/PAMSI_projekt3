@@ -40,7 +40,7 @@ void test_game_manager() {
 
   game::ComputerPlayer red{};
 
-  game::GameManager gm{white, red};
+  game::GameManager gm{red, white};
 
   gm.play_game();
 }

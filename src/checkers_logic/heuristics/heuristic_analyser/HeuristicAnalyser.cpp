@@ -58,10 +58,20 @@ int HeuristicAnalyser::piece_board_center(const Board& board) {
 
     if (f.piece.color == Piece::WHITE) {
       int distance = std::abs(middle_column - calculate_column(f.id));
-      result -= distance;  // minus because we want to be closer to the center
+      // calculate if piece is under attack
+      int attacks = calculate_attacks(board, f.id);
+      if (attacks > 0) {
+        result += distance;
+      } else
+        result -= distance;  // minus because we want to be closer to the center
     } else {
       int distance = std::abs(middle_column - calculate_column(f.id));
-      result += distance;
+      // calculate if piece is under attack
+      int attacks = calculate_attacks(board, f.id);
+      if (attacks > 0) {
+        result -= distance;
+      } else
+        result += distance;
     }
   }
 
@@ -133,6 +143,7 @@ int HeuristicAnalyser::mobility(const Board& board) {
       std::vector<Move> moves = ValidMoveFinder::valid_moves_for_white(board);
       int attacks = calculate_attacks(board, f.id);
       if (attacks > 0) {
+        ;
         result -= moves.size();
       } else {
         result += moves.size();
@@ -140,7 +151,7 @@ int HeuristicAnalyser::mobility(const Board& board) {
     } else {
       std::vector<Move> moves = ValidMoveFinder::valid_moves_for_red(board);
       int attacks = calculate_attacks(board, f.id);
-      if (attacks >  0) {
+      if (attacks > 0) {
         result += moves.size();
       } else {
         result -= moves.size();
@@ -148,6 +159,26 @@ int HeuristicAnalyser::mobility(const Board& board) {
     }
   }
 
+  return result;
+}
+int HeuristicAnalyser::chain_attack(const Board& board) {
+  int result = 0;
+  try {
+    Move white = ValidMoveFinder::valid_moves_for_white(board)[0];
+    if (white.removed_pieces.size() > 1) {
+      result += white.removed_pieces.size();
+    }
+  } catch (ValidMoveFinder::NoMovesFound& e) {
+    ;
+  }
+  try {
+    Move red = ValidMoveFinder::valid_moves_for_red(board)[0];
+    if (red.removed_pieces.size() > 1) {
+      result -= red.removed_pieces.size();
+    }
+  } catch (ValidMoveFinder::NoMovesFound& e) {
+    ;
+  }
   return result;
 }
 }  // namespace checkers
