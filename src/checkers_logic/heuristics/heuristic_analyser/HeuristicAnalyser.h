@@ -22,14 +22,14 @@ class HeuristicAnalyser {
  public:
   struct Weights {
     float pawns_number = 1.;
-    float queens_number = 1.5;
+    float queens_number = 1.7;
 
     float piece_opponent_edge = 0.05;
-    float piece_board_center = 0.03;
+    float piece_board_center = 0.07;
 
-    float piece_under_attack = -0.1;
+    float piece_under_attack = 2.5;
     float mobility = 0.01 ;
-    float chain_attack = 1.2;
+    float chain_attack = 2.3;
 
 
   } weights;

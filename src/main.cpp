@@ -24,29 +24,30 @@ void test_board() {
   chs::Visualiser::print(b);
   std::vector<chs::Move> moves_red = chs::ValidMoveFinder::valid_moves_for_red(b);
   std::vector<chs::Move> moves_white = chs::ValidMoveFinder::valid_moves_for_white(b);
-//  chs::print(moves_red);
+  //  chs::print(moves_red);
 
-    chs::print(moves_white);
+  chs::print(moves_white);
 
   fmt::print("White pieces: ");
 }
 
 void test_game_manager() {
-//    game::HumanPlayer white{};
-//    game::HumanPlayer red{};
+      game::HumanPlayer human{};
+  //    game::HumanPlayer red{};
 
-  game::RandomPlayer white{true};
-//  game::RandomPlayer red{};
+  //  game::RandomPlayer white{true};
+  //  game::RandomPlayer red{};
 
-  game::ComputerPlayer red{};
+  game::ComputerPlayer white{false, true};
+  game::ComputerPlayer red{false, false};
 
-  game::GameManager gm{red, white};
+  game::GameManager gm{human, white};
 
   gm.play_game();
 }
 
 int main() {
-//    test_board();
+  //    test_board();
   test_game_manager();
   return 0;
 }

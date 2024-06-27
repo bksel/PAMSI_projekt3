@@ -61,7 +61,7 @@ int HeuristicAnalyser::piece_board_center(const Board& board) {
       // calculate if piece is under attack
       int attacks = calculate_attacks(board, f.id);
       if (attacks > 0) {
-        result += distance;
+//        result += distance;
       } else
         result -= distance;  // minus because we want to be closer to the center
     } else {
@@ -69,7 +69,7 @@ int HeuristicAnalyser::piece_board_center(const Board& board) {
       // calculate if piece is under attack
       int attacks = calculate_attacks(board, f.id);
       if (attacks > 0) {
-        result -= distance;
+//        result -= distance;
       } else
         result += distance;
     }

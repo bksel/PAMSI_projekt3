@@ -3,6 +3,7 @@
 //
 #include "heuristic_function.h"
 
+
 float checkers::heuristic_function(const Board& board) {
   Board::Statistics stats = board.get_statistics();
 
