@@ -41,7 +41,7 @@ void test_game_manager() {
   game::ComputerPlayer white{false, true};
   game::ComputerPlayer red{false, false};
 
-  game::GameManager gm{human, white};
+  game::GameManager gm{red, white};
 
   gm.play_game();
 }

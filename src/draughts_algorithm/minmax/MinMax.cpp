@@ -9,7 +9,6 @@
 
 namespace draught_ai {
 
-
 [[maybe_unused]] checkers::Move MinMax::get_best_move(const checkers::Board& board, int depth,
                                                       checkers::Piece::Color color) {
   std::vector<checkers::Move> moves;
@@ -151,9 +150,7 @@ float MinMax::minmax(Node& node, int depth, checkers::Piece::Color color) {
     return checkers::heuristic_function(node.board);
   }
 }
-float MinMax::calculate_minmax(Node& node, int depth, checkers::Piece::Color color) {
-
-}
+float MinMax::calculate_minmax(Node& node, int depth, checkers::Piece::Color color) {}
 checkers::Move MinMax::get_best_move_alphabeta(const checkers::Board& board, int depth,
                                                checkers::Piece::Color color) {
   std::vector<checkers::Move> moves;
@@ -170,9 +167,21 @@ checkers::Move MinMax::get_best_move_alphabeta(const checkers::Board& board, int
     nodes.push_back(Node{move, new_board, 0});
   }
 
+  std::vector<std::thread> threads;
+
   for (Node& node : nodes) {
-    node.value = alpha_beta(node, depth, -1000, 1000, color);
+    threads.emplace_back([this, &node, depth, color]() {
+      node.value = alpha_beta(node, depth, -1000, 1000, color);
+    });
   }
+
+  for (auto& thread : threads) {
+    thread.join();
+  }
+
+  //  for (Node& node : nodes) {
+  //    node.value = alpha_beta(node, depth, -1000, 1000, color);
+  //  }
 
   Node best;
   if (color == checkers::Piece::Color::RED) {
